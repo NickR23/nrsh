@@ -20,16 +20,21 @@
         <h1>Nick's devel hell</h1>
     </header>
     <main>
-        <h1>HPKE and Me</h1>
+        <hr />
+<h1>HPKE and Me</h1>
 <h5><em>An intro into Hybrid Public Key Encryption</em></h5>
-<h2>Symmetric Key Encryption: A Refresher</h2>
+<h2>Asymmetric and Symmetric Key Encryption: A Refresher</h2>
+<h3>Symmetric Key Encryption</h3>
 <blockquote>
 <p><em>In all of us lives two wolves: asymmetric and symmetric encryption.</em></p>
 </blockquote>
-<p><strong>Symmetric key</strong> encryption is the simplest and oldest form of secure communication. It dates back to the <a href="https://en.wikipedia.org/wiki/Caesar_cipher">Caesar days</a>. 
-The Caesar cipher is a encryption scheme that encrypts messages by applying a fixed char "rotation" for each character in the plaintext. Messages can be decrypted by applying the reverse of the "rotation key". These days keys are a lot more complex, but the idea of sharing a single key to decrypt AND encrypt a message still stands. </p>
+<p><strong>Symmetric key</strong> encryption is the simplest and oldest form of secure communication. It dates back to the <a href="https://en.wikipedia.org/wiki/Caesar_cipher">Caesar days</a>. </p>
+<p>The Caesar cipher is a encryption scheme that encrypts messages by applying a fixed char "rotation" for each character in the plaintext. Messages can be decrypted by applying the reverse of the "rotation key". These days keys are a lot more complex, but the idea of sharing a single key to decrypt AND encrypt a message still stands. </p>
 <p>Symmetric key encryption is cheap and efficient, but it has its draw backs:</p>
 <ul>
+<li>
+<p>The biggest drawback is key distribution. Symmetric key schemes necessitate a way to communicate a key between two parties without interception from a third party. If the symmetric key gets out, all bets are off. Present and past communication (symmetric keys lack <a href="">forward secrecy</a>) could be decrypted.</p>
+</li>
 <li>
 <p>There is no authentication that the sender is who they say they are. <em>Anyone</em> with the encryption key could send a message impersonating the sender and the recepient would have no clue. </p>
 <blockquote>
@@ -42,17 +47,26 @@ The Caesar cipher is a encryption scheme that encrypts messages by applying a fi
 - 3 users (*3 keys* {A-&gt;B, A-&gt;C, B-&gt;C})
 - 4 users (*6 keys* {A-&gt;B, A-&gt;C, A-&gt;D, B-&gt;C, B-&gt;D, C-&gt;D})
 </code></pre>
+<p>Now imagine all of the infrastructure (storage AND distribution) needed to hand all of these keys out. Everytime a new member is added everyone needs their symmetric key. And if we need to do <em>key rotation</em> (which we do) then just forget about it.</p>
 </li>
 </ul>
 <blockquote>
-<p>"Uh, why don't they just use the <em>same</em> symmetric key?" -You (Probably)
-<strong>You (Probably):</strong> "Uh, why don't they just use the same symmetric key?"</p>
-<p>If every individual in the party uses the same key, if that key is
-compromised <em>everyone's</em> communication is compromised. This is unacceptable in
-nearly all scenarios.</p>
+<p><strong>You (Probably):</strong> "Uh, why don't they just <em>all</em> use the same symmetric key?"</p>
+<p>If every individual in the party uses the same key and that key is
+compromised, <em>everyones</em> communication is compromised. This is unacceptable in nearly every scenario. By giving every pair their own encrypted channel, one compromise doesn't invalidate our entire encryption model.</p>
 </blockquote>
-<pre><code> - If every individual in the party uses the same key, if that key is compormised *everyone's* communication is compromised. This is unacceptable in nearly all scenarios.
-</code></pre>
+<p><strong>TLDR:</strong> Symmetric key encryption is cheap and easy to reason about on a small scale. However, it lacks the ability to provide a sufficient trust model (non-repudiation) and it scales poorly past a handfull of messengers.</p>
+<h2>Asymmetric Key Encryption</h2>
+<p>Assymetric encryption on the other hand utilizes two keys: a private key and a public key. The two parties (Alice and Bob) both generate a private and public key pair. To communicate they distribute the public key to each other. Messenges are encrypted via the public key and can only be decrypted via the private key. </p>
+<p>This model provides a number of benefits:</p>
+<ul>
+<li>
+<p>Key distribution, the major problem with symmetric encryption, is easy now. Just advertise your public key to <em>everyone</em>. Malicious actors can't do much with the public key, aside from send encrypted messages. All of the prior, future, adn present communication is still impenetrable, because the private key is needed to decrypt and traffic. </p>
+</li>
+<li>
+<p>Using multiple non-symmetric keys provides the ability to <em>authenicate</em> the recipient. Only the person in posession of the private key is able to decrypt messages that were encrytped with the public key. This helps solve the non-repudiation of the symmetric key scheme. Through some slightly more complicated magic, the sender's own private and public keypair could be used to authenticate the send as well, but I won't be going into this here.</p>
+</li>
+</ul>
 <h4>References:</h4>
 <ul>
 <li><a href="https://datatracker.ietf.org/doc/rfc9180/">RFC9180</a></li>

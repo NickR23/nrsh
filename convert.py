@@ -14,7 +14,8 @@ for filename in os.listdir(post_dir):
     if filename.endswith(".md"):
         with open(f"{post_dir}/{filename}", "r", encoding="utf-8") as f:
             md_content = f.read()
-            html_content = markdown.markdown(md_content)
+            html_content = markdown.markdown(md_content, extensions=['fenced_code'])
+
 
         # Replace the placeholder in the template with the converted HTML
         final_html = template.replace("<!-- Markdown content will be inserted here -->", html_content)
