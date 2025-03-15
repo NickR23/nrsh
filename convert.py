@@ -16,4 +16,4 @@ for filename in os.listdir(post_dir):
         with open(f"{output_dir}/{new_filename}", "w", encoding="utf-8") as f:
             f.write(f"<html><body>{html_content}</body></html>")
 
-print("Markdown converted to HTML!")
+print("Markdown converted to HTML")
