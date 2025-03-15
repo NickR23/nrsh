@@ -9,7 +9,7 @@
 
   __Symmetric key__ encryption is the simplest and oldest form of secure communication. It dates back to the [Caesar days](https://en.wikipedia.org/wiki/Caesar_cipher). 
 
-The Caesar cipher is a encryption scheme that encrypts messages by applying a fixed char "rotation" for each character in the plaintext. Messages can be decrypted by applying the reverse of the "rotation key". These days keys are a lot more complex, but the idea of sharing a single key to decrypt AND encrypt a message still stands. 
+The Caesar cipher is a encryption scheme that works by applying a fixed char "rotation" for each character in the plaintext. Messages can be decrypted by applying the reverse of the "rotation key". These days keys are a lot more complex, but the idea of sharing a single key to decrypt AND encrypt a message still stands. 
 
 Symmetric key encryption is cheap and efficient, but it has its draw backs:
 
@@ -49,17 +49,33 @@ The astute among you may see where this is headed. Let's take a look at the lay 
   - *Asymmetric keys* are more computationally expensive.
   - *Asymmetric keys* are _easy_ to distribute.
 
-What if we put the pb with the j?
+What if we put proverbial the PB with the J?
+
 Enter *HPKE*:
+
 Hybrid Public Key Encryption combines the inexpensiveness of symmetric key schemes with the robust security guarantees of asymmetric key schemes.
 
 The flow is like this (I'll use a server <-> client model here):
+
   - The server generates a keypair{public_key, private_key}.
   - The public key is distributed _in plaintext_ to _everyone_.
-  - A client can use the public key to _derive_ and _encapsulate_  a symmetric key that is sent along side its message (which is encrypted with the symmetric key)
+  - A client can use the public key to _derive_ and _encapsulate_  a symmetric key that is sent along side its message (which is encrypted with the symmetric key).
   - The server can then use its private key to decap the symmetric key and decrypt the message.
 
 Here we retain the encryption guarantees of asymmetric encryption, but without  requiring the user to generate a keypair. This process allows for quick "one shot" encryption messages to be sent with little overhead. A user can simply encrypt it's message via the public key, do a small computation to generate the symmetric key, and then send. Most of the cryptographic computations are moved server side, which is great for our current "mobile first" internet.
+
+
+#### Key Encapsulation Mechanism
+_"A client can use the public key to derive and encapsulate  a symmetric k    ey that is sent along side its message"_
+
+This point requires some nuance. Notice that I say _derive_ and _encapsulate_, not just "encrypt". This is an important distinction.
+
+The symmetric key is not just encrypted via the public key. Doing so voids any notion of forward secrecy. If the private key is ever compromised, all of the communication (past and present) can be decrypted.
+
+KEMs (Key Encapsulation Mechanism) help us here. KEMs produce an ephemeral "encapsulation key" (EK). The EK is used to _derive_ the symmetric key via a Key Derivation Function (KDF). The message is encrypted via the symmetric key and only the EK and the encrypted message is sent. The KDF typically contains some extra context about the communication itself. The context + public key is used to _derive_ the symmetric key.
+
+The important thing to note is that the symmetric key is never transmitted over the wire. Only the encapsulation key is. If the private key is ever compromised, only the information from the current _session_ can be decrypted, since the EK is a random value that is generated _per session_. The EK is ephemeral and should never leave the system's memory.
+
 
 There's more to HPKE, but my laptop is dying and ShakeShack™️  is calling my name. I might revist this later.
 
