@@ -35,11 +35,35 @@ compromised, *everyones* communication is compromised. This is unacceptable in n
 ## Asymmetric Key Encryption 
 Assymetric encryption on the other hand utilizes two keys: a private key and a public key. The two parties (Alice and Bob) both generate a private and public key pair. To communicate they distribute the public key to each other. Messenges are encrypted via the public key and can only be decrypted via the private key. 
 
-This model provides a number of benefits:
+While assymetric key encryption is more computation expensive, it provides a number of benefits:
 
-- Key distribution, the major problem with symmetric encryption, is easy now. Just advertise your public key to *everyone*. Malicious actors can't do much with the public key, aside from send encrypted messages. All of the prior, future, adn present communication is still impenetrable, because the private key is needed to decrypt and traffic. 
+- Key distribution (the major problem with symmetric encryption) is easy now. Just advertise your public key to *everyone*. Malicious actors can't do much with the public key, aside from send encrypted messages. All of the prior, future, adn present communication is still impenetrable, because the private key is needed to decrypt and traffic. 
 
 - Using multiple non-symmetric keys provides the ability to _authenicate_ the recipient. Only the person in posession of the private key is able to decrypt messages that were encrytped with the public key. This helps solve the non-repudiation aspect of the symmetric key scheme. Through some slightly more complicated magic, the sender's own private and public keypair could be used to authenticate the sender as well, but I won't be going into this here.
 
+## Hybrid Public Key Encrytion (HPKE)
+The astute among you may see where this is headed. Let's take a look at the lay of the land:
+
+  - *Symmetric key* encryption is computationally cheap.
+  - *Symmetric keys* are _difficult_ to distribute.
+  - *Asymmetric keys* are more computationally expensive.
+  - *Asymmetric keys* are _easy_ to distribute.
+
+What if we put the pb with the j?
+Enter *HPKE*:
+Hybrid Public Key Encryption combines the inexpensiveness of symmetric key schemes with the robust security guarantees of asymmetric key schemes.
+
+The flow is like this (I'll use a server <-> client model here):
+  - The server generates a keypair{public_key, private_key}.
+  - The public key is distributed _in plaintext_ to _everyone_.
+  - A client can use the public key to _derive_ and _encapsulate_  a symmetric key that is sent along side its message (which is encrypted with the symmetric key)
+  - The server can then use its private key to decap the symmetric key and decrypt the message.
+
+Here we retain the encryption guarantees of asymmetric encryption, but without  requiring the user to generate a keypair. This process allows for quick "one shot" encryption messages to be sent with little overhead. A user can simply encrypt it's message via the public key, do a small computation to generate the symmetric key, and then send. Most of the cryptographic computations are moved server side, which is great for our current "mobile first" internet.
+
+There's more to HPKE, but my laptop is dying and ShakeShack™️  is calling my name. I might revist this later.
+
+--- 
 #### References:
   - [RFC9180](https://datatracker.ietf.org/doc/rfc9180/)
+  - [Cloudflare Blog]()

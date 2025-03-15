@@ -24,10 +24,10 @@
 <h1>HPKE and Me</h1>
 <h5><em>An intro into Hybrid Public Key Encryption</em></h5>
 <h2>Asymmetric and Symmetric Key Encryption: A Refresher</h2>
-<h3>Symmetric Key Encryption</h3>
 <blockquote>
 <p><em>In all of us lives two wolves: asymmetric and symmetric encryption.</em></p>
 </blockquote>
+<h3>Symmetric Key Encryption</h3>
 <p><strong>Symmetric key</strong> encryption is the simplest and oldest form of secure communication. It dates back to the <a href="https://en.wikipedia.org/wiki/Caesar_cipher">Caesar days</a>. </p>
 <p>The Caesar cipher is a encryption scheme that encrypts messages by applying a fixed char "rotation" for each character in the plaintext. Messages can be decrypted by applying the reverse of the "rotation key". These days keys are a lot more complex, but the idea of sharing a single key to decrypt AND encrypt a message still stands. </p>
 <p>Symmetric key encryption is cheap and efficient, but it has its draw backs:</p>
@@ -58,15 +58,25 @@ compromised, <em>everyones</em> communication is compromised. This is unacceptab
 <p><strong>TLDR:</strong> Symmetric key encryption is cheap and easy to reason about on a small scale. However, it lacks the ability to provide a sufficient trust model (non-repudiation) and it scales poorly past a handfull of messengers.</p>
 <h2>Asymmetric Key Encryption</h2>
 <p>Assymetric encryption on the other hand utilizes two keys: a private key and a public key. The two parties (Alice and Bob) both generate a private and public key pair. To communicate they distribute the public key to each other. Messenges are encrypted via the public key and can only be decrypted via the private key. </p>
-<p>This model provides a number of benefits:</p>
+<p>While assymetric key encryption is more computation expensive, it provides a number of benefits:</p>
 <ul>
 <li>
-<p>Key distribution, the major problem with symmetric encryption, is easy now. Just advertise your public key to <em>everyone</em>. Malicious actors can't do much with the public key, aside from send encrypted messages. All of the prior, future, adn present communication is still impenetrable, because the private key is needed to decrypt and traffic. </p>
+<p>Key distribution (the major problem with symmetric encryption) is easy now. Just advertise your public key to <em>everyone</em>. Malicious actors can't do much with the public key, aside from send encrypted messages. All of the prior, future, adn present communication is still impenetrable, because the private key is needed to decrypt and traffic. </p>
 </li>
 <li>
-<p>Using multiple non-symmetric keys provides the ability to <em>authenicate</em> the recipient. Only the person in posession of the private key is able to decrypt messages that were encrytped with the public key. This helps solve the non-repudiation of the symmetric key scheme. Through some slightly more complicated magic, the sender's own private and public keypair could be used to authenticate the send as well, but I won't be going into this here.</p>
+<p>Using multiple non-symmetric keys provides the ability to <em>authenicate</em> the recipient. Only the person in posession of the private key is able to decrypt messages that were encrytped with the public key. This helps solve the non-repudiation aspect of the symmetric key scheme. Through some slightly more complicated magic, the sender's own private and public keypair could be used to authenticate the sender as well, but I won't be going into this here.</p>
 </li>
 </ul>
+<h2>Hybrid Public Key Encrytion (HPKE)</h2>
+<p>The astute among you may see where this is headed. Let's take a look at the lay of the land:</p>
+<ul>
+<li><em>Symmetric key</em> encryption is computationally cheap.</li>
+<li><em>Symmetric keys</em> are <em>difficult</em> to distribute.</li>
+<li><em>Asymmetric keys</em> are more computationally expensive.</li>
+<li><em>Asymmetric keys</em> are <em>easy</em> to distribute.</li>
+</ul>
+<p>What if we put the pb with the j? Enter HPKE:</p>
+<hr />
 <h4>References:</h4>
 <ul>
 <li><a href="https://datatracker.ietf.org/doc/rfc9180/">RFC9180</a></li>
