@@ -1,9 +1,62 @@
-<html><body><h1>HPKE and Me</h1>
-<h3>An intro into Hybrid Public Key Encryption</h3>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post</title>
+    <style>
+        .dialogue {
+            margin-bottom: 1em;
+        }
+
+        .speaker {
+            font-weight: bold;
+            margin-right: 0.5em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Nick's devel hell</h1>
+    </header>
+    <main>
+        <h1>HPKE and Me</h1>
+<h5><em>An intro into Hybrid Public Key Encryption</em></h5>
 <h2>Symmetric Key Encryption: A Refresher</h2>
-<p>Symmetric key encrytpion is the simplest and oldest form of secure communication. The paradigm dates back to the <a href="https://en.wikipedia.org/wiki/Caesar_cipher">Caesar days</a>. Essentially, one party, Alice, sends another party, Bob, a key that can be used to decrypt the messages Alice send. This form of encryption is cheap and efficient, but it has its draw backs.</p>
-<p>In all of us lives two wolves: assymettric and symmtetric encryption. </p>
+<blockquote>
+<p><em>In all of us lives two wolves: asymmetric and symmetric encryption.</em></p>
+</blockquote>
+<p><strong>Symmetric key</strong> encryption is the simplest and oldest form of secure communication. It dates back to the <a href="https://en.wikipedia.org/wiki/Caesar_cipher">Caesar days</a>. 
+The Caesar cipher is a encryption scheme that encrypts messages by applying a fixed char "rotation" for each character in the plaintext. Messages can be decrypted by applying the reverse of the "rotation key". These days keys are a lot more complex, but the idea of sharing a single key to decrypt AND encrypt a message still stands. </p>
+<p>Symmetric key encryption is cheap and efficient, but it has its draw backs:</p>
+<ul>
+<li>
+<p>There is no authentication that the sender is who they say they are. <em>Anyone</em> with the encryption key could send a message impersonating the sender and the recepient would have no clue. </p>
+<blockquote>
+<p><em>This concept is known as "non-repudiation".</em></p>
+</blockquote>
+</li>
+<li>
+<p>Scaling symmetric key communication is a nightmare. If one wanted to communicate with a <em>group</em> of individuals, each member of that group would need their own private key to communicate with each other. The number of keys needed scales non-linearly:</p>
+<pre><code>- 2 users (*1 key* A-&gt;B)
+- 3 users (*3 keys* {A-&gt;B, A-&gt;C, B-&gt;C})
+- 4 users (*6 keys* {A-&gt;B, A-&gt;C, A-&gt;D, B-&gt;C, B-&gt;D, C-&gt;D})
+</code></pre>
+</li>
+</ul>
+<blockquote>
+<p>"Uh, why don't they just use the <em>same</em> symmetric key?" -You (Probably)
+<strong>You (Probably):</strong> "Uh, why don't they just use the same symmetric key?"</p>
+<p>If every individual in the party uses the same key, if that key is
+compromised <em>everyone's</em> communication is compromised. This is unacceptable in
+nearly all scenarios.</p>
+</blockquote>
+<pre><code> - If every individual in the party uses the same key, if that key is compormised *everyone's* communication is compromised. This is unacceptable in nearly all scenarios.
+</code></pre>
 <h4>References:</h4>
 <ul>
 <li><a href="https://datatracker.ietf.org/doc/rfc9180/">RFC9180</a></li>
-</ul></body></html>
+</ul>
+    </main>
+</body>
+</html>
