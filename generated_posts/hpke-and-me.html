@@ -29,7 +29,7 @@
 </blockquote>
 <h3>Symmetric Key Encryption</h3>
 <p><strong>Symmetric key</strong> encryption is the simplest and oldest form of secure communication. It dates back to the Caesar days.</p>
-<p>The Caesar cipher is an encryption scheme that works by applying a fixed char &quot;rotation&quot; for each character in the plaintext. Messages can be decrypted by applying the reverse of the &quot;rotation key&quot;. These days keys are a lot more complex, but the idea of sharing a single key to decrypt AND encrypt a message still stands.</p>
+<p>The <a href="https://en.wikipedia.org/wiki/Caesar_cipher">Caesar cipher</a> is an encryption scheme that works by applying a fixed char &quot;rotation&quot; for each character in the plaintext. Messages can be decrypted by applying the reverse of the &quot;rotation key&quot;. These days keys are a lot more complex, but the idea of sharing a single key to decrypt AND encrypt a message still stands.</p>
 <p>Symmetric key encryption is cheap and efficient, but it has its drawbacks:</p>
 <ul>
 <li>
@@ -108,12 +108,12 @@
 <p>KEMs (Key Encapsulation Mechanism) help us here. KEMs produce an ephemeral &quot;encapsulation key&quot; (EK). The EK is used to <em>derive</em> the symmetric key via a Key Derivation Function (KDF). The message is encrypted via the symmetric key and only the EK and the encrypted message is sent. The KDF typically contains some extra context about the communication itself. The context + public key is used to <em>derive</em> the symmetric key.</p>
 <p>The important thing to note is that the symmetric key is never transmitted over the wire. Only the encapsulation key is. If the private key is ever compromised, only the information from the current <em>session</em> can be decrypted, since the EK is a random value that is generated <em>per session</em>. The EK is ephemeral and should never leave the system's memory.</p>
 <h2 id="real-world-applications">Real-World Applications</h2>
-<p>HPKE forms the foundation for many modern secure communication protocols. TLS 1.3, the protocol that secures most HTTPS connections, uses concepts similar to HPKE. The Signal protocol, which powers encrypted messaging in apps like WhatsApp and Signal, also uses hybrid encryption techniques to provide secure communication with forward secrecy.</p>
+<p>HPKE forms the foundation for many modern secure communication protocols. For example, the Encrypted Client Hello TLS1.3 extension utilizes HPKE to provide encryption of the Client Hello TLS handshake message. The Signal protocol, which powers encrypted messaging in apps like WhatsApp and Signal, also uses HPKE techniques to provide secure communication. Both protocols are great examples of the modern cryptography landscape btw, I may write about them in the near future.</p>
 <hr />
 <h4>References:</h4>
 <ul>
 <li><a href="https://datatracker.ietf.org/doc/html/rfc9180">RFC9180</a> - The official HPKE specification</li>
-<li><a href="https://blog.cloudflare.com/hybrid-public-key-encryption/">Cloudflare Blog on HPKE</a></li>
+<li><a href="https://blog.cloudflare.com/hybrid-public-key-encryption/">Cloudflare Blog on HPKE</a> - A more in-depth dive into HPKE</li>
 </ul>
 
     </main>

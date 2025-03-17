@@ -8,7 +8,7 @@
 ### Symmetric Key Encryption
 **Symmetric key** encryption is the simplest and oldest form of secure communication. It dates back to the Caesar days.
 
-The Caesar cipher is an encryption scheme that works by applying a fixed char "rotation" for each character in the plaintext. Messages can be decrypted by applying the reverse of the "rotation key". These days keys are a lot more complex, but the idea of sharing a single key to decrypt AND encrypt a message still stands.
+The [Caesar cipher](https://en.wikipedia.org/wiki/Caesar_cipher) is an encryption scheme that works by applying a fixed char "rotation" for each character in the plaintext. Messages can be decrypted by applying the reverse of the "rotation key". These days keys are a lot more complex, but the idea of sharing a single key to decrypt AND encrypt a message still stands.
 
 Symmetric key encryption is cheap and efficient, but it has its drawbacks:
 
@@ -85,10 +85,10 @@ The important thing to note is that the symmetric key is never transmitted over 
 
 ## Real-World Applications
 
-HPKE forms the foundation for many modern secure communication protocols. TLS 1.3, the protocol that secures most HTTPS connections, uses concepts similar to HPKE. The Signal protocol, which powers encrypted messaging in apps like WhatsApp and Signal, also uses hybrid encryption techniques to provide secure communication with forward secrecy.
+HPKE forms the foundation for many modern secure communication protocols. For example, the Encrypted Client Hello TLS1.3 extension utilizes HPKE to provide encryption of the Client Hello TLS handshake message. The Signal protocol, which powers encrypted messaging in apps like WhatsApp and Signal, also uses HPKE techniques to provide secure communication. Both protocols are great examples of the modern cryptography landscape btw, I may write about them in the near future.
 
 * * *
 
 #### References:
 * [RFC9180](https://datatracker.ietf.org/doc/html/rfc9180) - The official HPKE specification
-* [Cloudflare Blog on HPKE](https://blog.cloudflare.com/hybrid-public-key-encryption/)
+* [Cloudflare Blog on HPKE](https://blog.cloudflare.com/hybrid-public-key-encryption/) - A more in-depth dive into HPKE
